@@ -1,0 +1,6 @@
+{
+  "name": "存储模型与库存控制实验室",
+  "description": "运筹学与供应链库存决策实验室：涵盖EOQ/EPQ/缺货/折扣确定型模型、报童与随机服务水平、(s,S)水箱浮球动态沙盒、3D成本曲面、六大经典案例、Python/SimPy代码引擎与AI诊断报告。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
