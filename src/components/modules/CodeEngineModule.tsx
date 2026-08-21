@@ -18,10 +18,7 @@ import {
   Sparkles,
   RefreshCw,
   Sliders,
-  Globe,
-  Github,
   HelpCircle,
-  ExternalLink,
   Layers,
 } from "lucide-react";
 
@@ -29,7 +26,6 @@ export const CodeEngineModule: React.FC = () => {
   const [selectedSnippetId, setSelectedSnippetId] = useState<string>(EXTENDED_PYTHON_SNIPPETS[0].id);
   const [copied, setCopied] = useState<boolean>(false);
   const [isExecuting, setIsExecuting] = useState<boolean>(false);
-  const [showDeployGuide, setShowDeployGuide] = useState<boolean>(false);
 
   // Active Snippet
   const activeSnippet: ExtendedPythonSnippet = useMemo(() => {
@@ -153,73 +149,9 @@ export const CodeEngineModule: React.FC = () => {
               {isExecuting ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Play className="w-3.5 h-3.5" />}
               <span>运行仿真算法</span>
             </button>
-
-            <button
-              onClick={() => setShowDeployGuide(!showDeployGuide)}
-              className="inline-flex items-center gap-1.5 px-3 py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-medium rounded border border-white/20 transition-colors cursor-pointer"
-            >
-              <Globe className="w-3.5 h-3.5 text-[#3498DB]" />
-              <span>GitHub / Netlify 部署说明</span>
-            </button>
           </div>
         </div>
       </div>
-
-      {/* GitHub & Netlify Deployment Guide Banner / Drawer */}
-      {showDeployGuide && (
-        <div className="bg-white rounded-lg p-5 border border-[#E1E4E8] shadow-xs space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-[#E1E4E8]">
-            <div className="flex items-center gap-2">
-              <span className="p-1.5 bg-[#F8F9FA] rounded text-[#2C3E50]">
-                <Globe className="w-4 h-4 text-[#2980B9]" />
-              </span>
-              <h3 className="text-xs font-bold text-[#2C3E50] uppercase tracking-wider">
-                项目一键部署至 GitHub Pages 与 Netlify 指南
-              </h3>
-            </div>
-            <button
-              onClick={() => setShowDeployGuide(false)}
-              className="text-xs text-[#7F8C8D] hover:text-[#2C3E50] cursor-pointer"
-            >
-              收起说明
-            </button>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-            {/* Netlify Deploy */}
-            <div className="bg-[#F8F9FA] p-4 rounded border border-[#E1E4E8] space-y-2">
-              <div className="flex items-center gap-1.5 font-bold text-[#2C3E50]">
-                <ExternalLink className="w-3.5 h-3.5 text-[#2980B9]" />
-                <span>部署到 Netlify (推荐 · 最快捷)</span>
-              </div>
-              <p className="text-[#7F8C8D] leading-relaxed">
-                项目中已配置好 <code className="bg-white px-1.5 py-0.5 rounded border border-[#E1E4E8]">netlify.toml</code> 与 SPA 重定向规则。
-              </p>
-              <ol className="list-decimal list-inside space-y-1 text-[#2C3E50] font-mono text-[11px]">
-                <li>运行 <code className="bg-white px-1">npm run build</code> 生成 <code className="bg-white px-1">dist</code> 文件夹</li>
-                <li>登录 Netlify 控制台，将 <code className="bg-white px-1">dist</code> 拖入部署区域即可完成零配置上线</li>
-                <li>或关联 GitHub 仓库，Build Command 填 <code className="bg-white px-1">npm run build</code>，Publish directory 填 <code className="bg-white px-1">dist</code></li>
-              </ol>
-            </div>
-
-            {/* GitHub Pages Deploy */}
-            <div className="bg-[#F8F9FA] p-4 rounded border border-[#E1E4E8] space-y-2">
-              <div className="flex items-center gap-1.5 font-bold text-[#2C3E50]">
-                <Github className="w-3.5 h-3.5 text-[#2C3E50]" />
-                <span>部署到 GitHub Pages (全静态托管)</span>
-              </div>
-              <p className="text-[#7F8C8D] leading-relaxed">
-                Vite 配置已适配相对路径与无服务静态资源加载。
-              </p>
-              <ol className="list-decimal list-inside space-y-1 text-[#2C3E50] font-mono text-[11px]">
-                <li>将代码推送到 GitHub 仓库</li>
-                <li>在仓库 Settings &gt; Pages 中，Source 选择 <strong>GitHub Actions</strong></li>
-                <li>自动运行标准 Vite 静态构建流程，或使用 <code className="bg-white px-1">gh-pages</code> 分支一键分发</li>
-              </ol>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Sliced Algorithm Switcher Tabs */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -288,14 +220,35 @@ export const CodeEngineModule: React.FC = () => {
             </div>
           </div>
 
-          {/* Code Architecture Card */}
-          <div className="bg-white rounded-lg p-4 border border-[#E1E4E8] shadow-xs space-y-2 text-xs">
-            <h4 className="font-bold text-[#2C3E50] uppercase tracking-wider flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-[#2980B9]" />
-              代码架构与依赖
-            </h4>
-            <p className="text-[#7F8C8D] leading-relaxed">{activeSnippet.description}</p>
-            <div className="flex flex-wrap items-center gap-1 pt-1">
+          {/* Code Architecture & External Run Guide Card */}
+          <div className="bg-white rounded-lg p-4 border border-[#E1E4E8] shadow-xs space-y-3 text-xs">
+            <div className="flex items-center justify-between pb-2 border-b border-[#E1E4E8]">
+              <h4 className="font-bold text-[#2C3E50] uppercase tracking-wider flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-[#2980B9]" />
+                外部环境直接运行指南 (CLI / Jupyter / PyCharm)
+              </h4>
+              <span className="px-2 py-0.5 bg-[#27AE60]/10 text-[#27AE60] font-mono text-[10px] rounded font-bold">
+                独立完整可运行 · 0 外部项目耦合
+              </span>
+            </div>
+
+            <p className="text-[#7F8C8D] leading-relaxed">
+              当前脚本包含<strong>完整的 main 入口</strong>、<strong>全参数默认值</strong>及 <strong>Matplotlib 图表渲染代码</strong>。复制后可直接粘贴至任意外部环境（如本地 VS Code、PyCharm、Google Colab 或 Linux 终端）运行：
+            </p>
+
+            <div className="bg-[#1E293B] text-[#E2E8F0] p-3 rounded font-mono text-[11px] space-y-1.5 border border-[#334155]">
+              <div className="text-[#94A3B8] text-[10px]"># 1. 在本地终端安装所需依赖包</div>
+              <div className="text-[#38BDF8] select-all">
+                pip install {activeSnippet.libraries.map(lib => lib.split('.')[0]).filter((v, i, a) => a.indexOf(v) === i).join(" ")}
+              </div>
+              <div className="text-[#94A3B8] text-[10px] pt-1"># 2. 运行保存的 Python 脚本</div>
+              <div className="text-[#2ECC71] select-all">
+                python {activeSnippet.id}.py
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-1.5 pt-1">
+              <span className="text-[#95A5A6] text-[11px]">调用库模块:</span>
               {activeSnippet.libraries.map((lib, i) => (
                 <span key={i} className="px-2 py-0.5 bg-[#F8F9FA] text-[#2980B9] font-mono text-[10px] rounded border border-[#E1E4E8]">
                   {lib}
